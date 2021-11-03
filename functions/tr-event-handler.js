@@ -6,24 +6,16 @@ exports.handler = async (context, event, callback) => {
 
     try {
       const callPractice = await client.calls.create({
-        //machineDetection: 'Enable',
+        machineDetection: 'Enable',
         MachineDetectionSpeechThreshold: '1000',
         method: 'POST',
-        statusCallback: 'https://patientpop-6992-dev.twil.io/callEvents',
+        statusCallback: 'https://<TWILIO FUNCTION DOMAIN>/status-callback',
         statusCallbackMethod: 'POST',
-        statusCallbackEvent: ['initiated', 'ringing', 'answered', 'completed'],
-        url: `https://patientpop-6992-dev.twil.io/callQueue?queue=${event.ReservationSid}&from=${task.callerID}`,
+        statusCallbackEvent: ['answered', 'completed'],
+        url: `https://<TWILIO FUNCTION DOMAIN>/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
         to: task.practicePhone,
         from: task.callerID,
       });
-      console.log('CALL RESPONSE: ', callPractice);
-      // const dequeue = await client.taskrouter
-      //   .workspaces(event.WorkspaceSid)
-      //   .tasks(event.TaskSid)
-      //   .reservations(event.ReservationSid)
-      //   .update({ instruction: 'dequeue', dequeueFrom: task.callerID });
-
-      // console.log('🐼🐼🐼🐼', dequeue);
     } catch (error) {
       console.log(error);
     }

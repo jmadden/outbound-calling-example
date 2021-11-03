@@ -3,6 +3,7 @@
 ## Use Case
 
 Connect an incoming call to a Twilio Phone number to another phone number or Voice Client address.
+An example may be if you want to dial to
 
 ## Twilio Technologies Used
 
@@ -20,3 +21,18 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 ### Overview
 
 Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects us we'll use TwiML to dial the the queue and connect the calls.
+
+### Step 1. Configure TaskRouter
+
+1. [Create a TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=%2Fconsole%2Ftaskrouter%2Fworkspaces%3Fx-target-region%3Dus1) in the Twilio Console.
+   <img src="images/trWorkspace.png" height="300">
+
+   Give the Worspace a name and the value of the Event Callback field will be the URL to your `tr-event-handler.js` Function.
+
+   i.e. `https://<TWILIO FUNCTION DOMAIN>/tr-event-handler`
+
+### Create a Studio IVR
+
+Use Twilio Studio to create an IVR. You can find a tutorial here: <https://www.twilio.com/docs/studio/tutorials/how-to-build-an-ivr>
+
+In the IVR we'll want to use the [Enqueue Call](https://www.twilio.com/docs/studio/widget-library/enqueue-call) widget
