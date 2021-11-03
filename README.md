@@ -25,11 +25,13 @@ Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskR
 ### Step 1. Configure TaskRouter
 
 1. [Create a TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=%2Fconsole%2Ftaskrouter%2Fworkspaces%3Fx-target-region%3Dus1) in the Twilio Console.
-   <img src="images/trWorkspace.png" height="300">
+   <img src="images/trWorkspace.png" height="400">
 
-   Give the Worspace a name and the value of the Event Callback field will be the URL to your `tr-event-handler.js` Function.
+   Give the Worspace a name and the value of the Event Callback field will be the URL to your `tr-event-handler.js` Function. i.e. `https://<TWILIO FUNCTION DOMAIN>/tr-event-handler`
 
-   i.e. `https://<TWILIO FUNCTION DOMAIN>/tr-event-handler`
+   Click the Save button.
+
+2. Create a TaskQueue called As the name of the business you're sending calls to. For this example we'll use a fictional health care practice called Pacific Health.
 
 ### Create a Studio IVR
 
