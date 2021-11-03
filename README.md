@@ -31,7 +31,12 @@ Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskR
 
    Click the Save button.
 
-2. Create a TaskQueue called As the name of the business you're sending calls to. For this example we'll use a fictional health care practice called Pacific Health.
+2. Create a TaskQueue - On the TaskRouter menu select TaskQueue and create a TaskQueue with the name of the business you're sending calls to. For this example we'll use a fictional health care practice called Pacific Health.
+   <img src="images/trTaskQueue.png" height="300">
+
+   TaskQueues are where TaskRouter Workers are held waiting to be assigned a Task. Note how the Queue Expression in the example above has the value `practice=="Pacific Health"`. This means any Worker with that value will be pulled into this specific TaskQueue.
+
+3. Create a Worker -
 
 ### Create a Studio IVR
 

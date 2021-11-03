@@ -1,6 +1,7 @@
 exports.handler = async (context, event, callback) => {
   const client = context.getTwilioClient();
   const response = new Twilio.Response();
+
   if (event.EventType == 'reservation.created') {
     const task = JSON.parse(event.TaskAttributes);
 
