@@ -67,6 +67,10 @@ In this example code we do not do anything with the AMD information other than `
 
 This code simply console.logs call information that is returned when the call completes. Here is where you could add custome code to handle/record call failures. Find more information on this topic here: https://www.twilio.com/docs/usage/webhooks/voice-webhooks#call-status-callbacks
 
+#### [location-lookup.js](functions/location-lookup.js)
+
+This file is used to mock a request to a back end that returns data about the location you want to call. This Function should be used in the Run Function widget in Studio to retrieve data that is used when creating the text in the Enqueue Call widget.
+
 ## Instructions for running Twilio Functions
 
 1. Confirm you have Node version 12 or higher and npm installed on your computer. If you do not, install both.
