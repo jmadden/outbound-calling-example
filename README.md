@@ -16,35 +16,39 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
   - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
-## Instructions
+## Functions Explained
 
-1. Copy the `.env-example` file and rename it to `.env`.
-2. Fill out the `.env` file with the relevant information.
-   - You can find the DOMAIN value after you've deployed the Function code.
+> **Important!**: Keep in mind this is demo code. If you use Functions in production you should take the proper steps to secure them when needed. Please review [Understanding Visibility of Functions](https://www.twilio.com/docs/runtime/functions-assets-api/api/understanding-visibility-public-private-and-protected-functions-and-assets) for more details.
 
-### Overview
+- `tr-event-handler.js` - This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The code that is triggered looks like this
+
+```javascript
+const callPractice = await client.calls.create({
+  machineDetection: 'Enable',
+  MachineDetectionSpeechThreshold: '1000',
+  method: 'POST',
+  statusCallback: `https://${context.DOMAIN_NAME}/status-callback`,
+  statusCallbackMethod: 'POST',
+  statusCallbackEvent: ['answered', 'completed'],
+  url: `https://${context.DOMAIN_NAME}/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
+  to: task.practicePhone,
+  from: task.callerID,
+});
+```
+
+## Instructions for running Twilio Functions
+
+1. Confirm you have Node version 12 or higher and npm installed on your computer. If you do not, install both.
+2. From the root directory of this code in terminal run `npm install`.
+3. When `npm install` finishes running. Copy the `.env-example` file and rename it to `.env`.
+4. Fill out the `.env` file with the relevant information.
+5. Be sure you have the Twilio CLI installed as well as the Serverless Plugin for the CLI.
+   - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
+   - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
+6. Once you have the Twilio CLI installed and configured. From terminal run `twilio serverless:deploy`. This will push the Functions in this repository up to your Twilio account. There will be a new [Functions Service in your Twilio Console named call-router](https://console.twilio.com/us1/develop/functions/services?frameUrl=%2Fconsole%2Ffunctions%2Foverview%2Fservices%3Fx-target-region%3Dus1).
+
+## Call Flow Explained
 
 Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
 
-### Step 1. Configure TaskRouter
-
-1. [Create a TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=%2Fconsole%2Ftaskrouter%2Fworkspaces%3Fx-target-region%3Dus1) in the Twilio Console.
-   <img src="images/trWorkspace.png" height="400">
-
-   Give the Worspace a name and the value of the Event Callback field will be the URL to your `tr-event-handler.js` Function. i.e. `https://<TWILIO FUNCTION DOMAIN>/tr-event-handler`
-
-   Click the Save button.
-
-2. Create a TaskQueue - On the TaskRouter menu select TaskQueue and create a TaskQueue with the name of the business you're sending calls to. For this example we'll use a fictional health care practice called Pacific Health.
-
-   <img src="images/trTaskQueue.png" height="300">
-
-TaskQueues are where TaskRouter Workers are held waiting to be assigned a Task. Note how the Queue Expression in the example above has the value `practice=="Pacific Health"`. This means any Worker with that value will be pulled into this specific TaskQueue and be elegible to receive a task.
-
-3. Create a Worker - This Worker will represent the main phone at Pacific Health. On the TaskRouter menu select Worker and creat a new Worker.
-
-### Create a Studio IVR
-
-Use Twilio Studio to create an IVR. You can find a tutorial here: <https://www.twilio.com/docs/studio/tutorials/how-to-build-an-ivr>
-
-In the IVR we'll want to use the [Enqueue Call](https://www.twilio.com/docs/studio/widget-library/enqueue-call) widget
+## TaskRouter
