@@ -17,21 +17,27 @@ exports.handler = async (context, event, callback) => {
         to: task.practicePhone,
         from: task.callerID,
       });
+      response.setStatusCode(200);
+      return callback(null, response);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      return callback(error);
     }
   }
 
   if (event.EventType == 'reservation.wrapup') {
-    const completeTask = await client.taskrouter
-      .workspaces(event.WorkspaceSid)
-      .tasks(event.TaskSid)
-      .update({
-        assignmentStatus: 'completed',
-      });
-
-    console.log('🐶🐶🐶🐶', completeTask);
+    try {
+      const completeTask = await client.taskrouter
+        .workspaces(event.WorkspaceSid)
+        .tasks(event.TaskSid)
+        .update({
+          assignmentStatus: 'completed',
+        });
+      response.setStatusCode(200);
+      return callback(null, response);
+    } catch (error) {
+      console.error(error);
+      return callback(error);
+    }
   }
-  response.setStatusCode(200);
-  return callback(null, response);
 };

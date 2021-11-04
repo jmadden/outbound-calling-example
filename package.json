@@ -10,6 +10,7 @@
   "dependencies": {
     "@twilio/runtime-handler": "1.2.0",
     "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
     "moment-timezone": "^0.5.33",
     "twilio": "^3.70"
   },

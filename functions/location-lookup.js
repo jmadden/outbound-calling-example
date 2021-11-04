@@ -3,9 +3,9 @@
 // This function only returns static data.
 exports.handler = function (context, event, callback) {
   const json = {
-    location: 'boston',
+    location: 'Pacific Health',
     locationId: '12345',
-    locationPhone: '',
+    locationPhone: '', //Put your destination phone number here.
   };
   return callback(null, json);
 };

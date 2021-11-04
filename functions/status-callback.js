@@ -1,4 +1,8 @@
 exports.handler = async (context, event, callback) => {
-  console.log(event);
-  return callback();
+  const response = new Twilio.Response();
+
+  console.log('CALL STATUS: ', event);
+
+  response.setStatusCode(200);
+  return callback(null, response);
 };
