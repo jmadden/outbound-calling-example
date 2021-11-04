@@ -4,6 +4,12 @@
 
 Connect an incoming call to a Twilio Phone number to another phone number or Voice Client address.
 
+## Requirements
+
+- A [Twilio](https://twilio.com) account
+- Node.js version 12 or higher and npm
+- [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) with the [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
+
 ## Twilio Technologies Used
 
 - [Phone Numbers](https://www.twilio.com/docs/phone-numbers)
@@ -15,6 +21,10 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 - [TaskRouter](https://www.twilio.com/docs/taskrouter)
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
   - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
+
+## Call Flow Explained
+
+Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
 
 ## Functions Explained
 
@@ -61,11 +71,7 @@ This code simply console.logs call information that is returned when the call co
    - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 6. Once you have the Twilio CLI installed and configured. From terminal run `twilio serverless:deploy`. This will push the Functions in this repository up to your Twilio account. There will be a new [Functions Service in your Twilio Console named call-router](https://console.twilio.com/us1/develop/functions/services?frameUrl=%2Fconsole%2Ffunctions%2Foverview%2Fservices%3Fx-target-region%3Dus1).
 
-## Call Flow Explained
-
-Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
-
-## TaskRouter
+## TaskRouter Explained
 
 For this example code we'll set up TaskRouter with one TaskQueue, one Worker, and one Workflow filter.
 If you've put your Twilio credentials in the `.env` file then you can run `node createDemoTr.js` from terminal. This will generate a new [TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=/console/taskrouter/workspaces) called Call Router.
