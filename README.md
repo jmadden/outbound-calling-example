@@ -3,7 +3,6 @@
 ## Use Case
 
 Connect an incoming call to a Twilio Phone number to another phone number or Voice Client address.
-An example may be if you want to dial to
 
 ## Twilio Technologies Used
 
@@ -14,13 +13,18 @@ An example may be if you want to dial to
   - [TwiML](https://www.twilio.com/docs/voice/twiml)
   - [AMD (Answering Machine Detection)](https://www.twilio.com/docs/voice/answering-machine-detection)
 - [TaskRouter](https://www.twilio.com/docs/taskrouter)
-- [Serverless Functions (Node.js)](https://www.twilio.com/docs/runtime/functions)
+- [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
+  - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
 ## Instructions
 
+1. Copy the `.env-example` file and rename it to `.env`.
+2. Fill out the `.env` file with the relevant information.
+   - You can find the DOMAIN value after you've deployed the Function code.
+
 ### Overview
 
-Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects us we'll use TwiML to dial the the queue and connect the calls.
+Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
 
 ### Step 1. Configure TaskRouter
 
@@ -32,11 +36,12 @@ Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskR
    Click the Save button.
 
 2. Create a TaskQueue - On the TaskRouter menu select TaskQueue and create a TaskQueue with the name of the business you're sending calls to. For this example we'll use a fictional health care practice called Pacific Health.
+
    <img src="images/trTaskQueue.png" height="300">
 
-   TaskQueues are where TaskRouter Workers are held waiting to be assigned a Task. Note how the Queue Expression in the example above has the value `practice=="Pacific Health"`. This means any Worker with that value will be pulled into this specific TaskQueue.
+TaskQueues are where TaskRouter Workers are held waiting to be assigned a Task. Note how the Queue Expression in the example above has the value `practice=="Pacific Health"`. This means any Worker with that value will be pulled into this specific TaskQueue and be elegible to receive a task.
 
-3. Create a Worker -
+3. Create a Worker - This Worker will represent the main phone at Pacific Health. On the TaskRouter menu select Worker and creat a new Worker.
 
 ### Create a Studio IVR
 

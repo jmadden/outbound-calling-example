@@ -10,18 +10,15 @@ exports.handler = async (context, event, callback) => {
         machineDetection: 'Enable',
         MachineDetectionSpeechThreshold: '1000',
         method: 'POST',
-        statusCallback: 'https://<TWILIO FUNCTION DOMAIN>/status-callback',
+        statusCallback: `https://${context.DOMAIN_NAME}/status-callback`,
         statusCallbackMethod: 'POST',
         statusCallbackEvent: ['answered', 'completed'],
-        url: `https://<TWILIO FUNCTION DOMAIN>/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
+        url: `https://${context.DOMAIN_NAME}/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
         to: task.practicePhone,
         from: task.callerID,
       });
-      response.setStatusCode(200);
-      return callback(null, response);
     } catch (error) {
       console.error(error);
-      return callback(error);
     }
   }
 
@@ -33,11 +30,10 @@ exports.handler = async (context, event, callback) => {
         .update({
           assignmentStatus: 'completed',
         });
-      response.setStatusCode(200);
-      return callback(null, response);
     } catch (error) {
       console.error(error);
-      return callback(error);
     }
   }
+  response.setStatusCode(200);
+  return callback(null, response);
 };
