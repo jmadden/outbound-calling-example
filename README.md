@@ -1,4 +1,4 @@
-# Outbound Calling Example
+# Outbound Calling Example Code
 
 ## Use Case
 
@@ -20,7 +20,7 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 
 > **Important!**: Keep in mind this is demo code. If you use Functions in production you should take the proper steps to secure them when needed. Please review [Understanding Visibility of Functions](https://www.twilio.com/docs/runtime/functions-assets-api/api/understanding-visibility-public-private-and-protected-functions-and-assets) for more details.
 
-`tr-event-handler.js` - This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The code that is triggered looks like this
+[tr-event-handler.js](functions/tr-event-handler.js) - This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The code that is triggered looks like this
 
 ```javascript
 const callPractice = await client.calls.create({
