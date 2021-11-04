@@ -2,12 +2,12 @@
 
 ## Use Case
 
-Connect an incoming call to a Twilio Phone number to another phone number or Voice Client address.
+Connect an incoming call to a Twilio Phone number to another phone.
 
 ## Requirements
 
 - A [Twilio](https://twilio.com) account
-- Node.js version 12 or higher and npm
+- Node.js version 14 or higher and npm
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) with the [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
 ## Twilio Technologies Used
@@ -24,7 +24,14 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 
 ## Call Flow Explained
 
-Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
+1. Phone call comes into a Twilio phone number.
+2. Call connects to a Studio IVR and traverses the IVR.
+3. Studio enqueues the call and creates a Task that is sent to TaskRouter.
+4. TaskRouter routes the Task to a Worker and a Task Reservation is created.
+5. The Reservation created event trigger's a webhook to a Twilio Function.
+6. The Twilio Function uses the Reservation and Task information to create an outbound call using the voice API. The outbound call is set up with Answering Machine Detection and a Status Callback URL.
+7. When the call connects, TwiML is activated that calls into the call queue using the Reservation SID as the name of the call queue. This dequeues the call and the enquued caller and the outbound called are connected.
+8. When the call completes the Task Reservation goes into Wrapping and that activates code that Completes the associated Task.
 
 ## Functions Explained
 
