@@ -20,7 +20,9 @@ Connect an incoming call to a Twilio Phone number to another phone number or Voi
 
 > **Important!**: Keep in mind this is demo code. If you use Functions in production you should take the proper steps to secure them when needed. Please review [Understanding Visibility of Functions](https://www.twilio.com/docs/runtime/functions-assets-api/api/understanding-visibility-public-private-and-protected-functions-and-assets) for more details.
 
-[tr-event-handler.js](functions/tr-event-handler.js) - This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The code that is triggered looks like this
+#### [tr-event-handler.js](functions/tr-event-handler.js)
+
+This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two, `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The outbound call code that is triggered looks like this:
 
 ```javascript
 const callPractice = await client.calls.create({
@@ -29,12 +31,24 @@ const callPractice = await client.calls.create({
   method: 'POST',
   statusCallback: `https://${context.DOMAIN_NAME}/status-callback`,
   statusCallbackMethod: 'POST',
-  statusCallbackEvent: ['answered', 'completed'],
   url: `https://${context.DOMAIN_NAME}/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
   to: task.practicePhone,
   from: task.callerID,
 });
 ```
+
+- In the above code sample note that we've enabled Answering Machine Detection. The results of AMD are sent to the `url`.
+- The `url` is triggered when the call connects. Note how we are sending the `queue` and `from` as parameters to that URL. The code at that URL is responsible for dialing the queue where the call is waiting as well as examining the results of AMD and making a decision as to how to proceed with the call.
+
+#### [dial-queue.js](functions/dial-queue.js)
+
+This code generates TwiML instructing the call the has been enqueued to dequeue. Due to the nature of this call going through TaskRouter, the queue will always be named the value of the Task Reservation SID.
+
+In this example code we do not do anything with the AMD information other than `console.log()` it, so you can review it's value. Ultimately you could use the value returned by `AnsweredBy` to generate different TwiML vs the the TwiML currently being use to dequeue the call.
+
+#### [status-callback.js](functions/status-callback.js)
+
+This code simply console.logs call information that is returned when the call completes. Here is where you could add custome code to handle/record call failures. Find more information on this topic here: https://www.twilio.com/docs/usage/webhooks/voice-webhooks#call-status-callbacks
 
 ## Instructions for running Twilio Functions
 
@@ -52,3 +66,6 @@ const callPractice = await client.calls.create({
 Using Twilio Studio, enqueue a call and create a Task in TaskRouter. Using TaskRouter Events, trigger an outbound call using the Programmable Voice API and Twilio Functions. The outbound call will include Answering Machine detection and a Status Callback URL. When the call connects we'll use TwiML to dial the queue and connect the calls.
 
 ## TaskRouter
+
+For this example code we'll set up TaskRouter with one TaskQueue, one Worker, and one Workflow filter.
+If you've put your Twilio credentials in the `.env` file then you can run `node createDemoTr.js` from terminal. This will generate a new [TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=/console/taskrouter/workspaces) called Call Router.

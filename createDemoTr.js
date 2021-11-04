@@ -7,7 +7,7 @@ const createWorkspace = async () => {
   try {
     const response = await client.taskrouter.workspaces.create({
       eventCallbackUrl: `https://${process.env.DOMAIN}/tr-event-handler`,
-      friendlyName: 'Call Router Workflow',
+      friendlyName: 'Call Router',
     });
 
     return response;
@@ -45,7 +45,7 @@ const createWorker = async (wsSid) => {
 
 const createWorkflow = async (wsSid, tqSid) => {
   client.taskrouter.workspaces(wsSid).workflows.create({
-    friendlyName: 'Call Router',
+    friendlyName: 'Call Router Workflow',
     configuration: JSON.stringify({
       task_routing: {
         filters: [
