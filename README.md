@@ -3,6 +3,7 @@
 ## Use Case
 
 Connect an incoming call to a Twilio Phone number to another phone.
+Example Use: Using a Twilio phone number to call
 
 ## Requirements
 
