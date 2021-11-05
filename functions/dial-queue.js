@@ -1,12 +1,12 @@
 exports.handler = async (context, event, callback) => {
-  const { AnsweredBy, queue } = event;
+  const { AnsweredBy, queueName } = event;
 
   console.log('AMD RESULT: ', AnsweredBy);
-  console.log('QUEUE: ', `+${queue.trim()}`);
+  console.log('QUEUE: ', queueName);
 
   const response = new Twilio.twiml.VoiceResponse();
   const dial = response.dial();
 
-  dial.queue(`+${queue.trim()}`);
+  dial.queue(queueName);
   return callback(null, response);
 };

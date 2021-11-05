@@ -25,10 +25,10 @@ exports.handler = async (context, event, callback) => {
         machineDetection: 'Enable',
         MachineDetectionSpeechThreshold: '1000',
         method: 'POST',
-        statusCallback: `https://${context.DOMAIN_NAME}/status-callback`,
+        statusCallback: `https://${context.DOMAIN_NAME}/status-callback?queueName=${queueName}&queueSid=${queueSid}`,
         statusCallbackMethod: 'POST',
         statusCallbackEvent: ['completed'],
-        url: `https://${context.DOMAIN_NAME}/dial-queue?queueSid=${queueSid}`,
+        url: `https://${context.DOMAIN_NAME}/dial-queue?queueName=${queueName}`,
         to: practicePhone,
         from: callerId,
       });
