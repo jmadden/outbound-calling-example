@@ -5,7 +5,9 @@ exports.handler = function (context, event, callback) {
   const json = {
     location: 'Pacific Health',
     locationId: '12345',
-    locationPhone: '', //Put your destination phone number here.
+    locationPhone: '+14158786346',
+    queueName: 'Pacific_Health',
+    queueSid: 'QUaaebc05b9cbe87ace0864443eb364f6d',
   };
   return callback(null, json);
 };
