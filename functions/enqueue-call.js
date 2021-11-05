@@ -19,6 +19,7 @@ exports.handler = async (context, event, callback) => {
     limit: 1,
   });
 
+  //3. If no active call, then call practice
   if (busy.length === 0) {
     try {
       const callPractice = await client.calls.create({
