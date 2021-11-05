@@ -38,26 +38,6 @@ Example Use: Using a Twilio phone number to call
 
 > **Important!**: Keep in mind this is demo code. If you use Functions in production you should take the proper steps to secure them when needed. Please review [Understanding Visibility of Functions](https://www.twilio.com/docs/runtime/functions-assets-api/api/understanding-visibility-public-private-and-protected-functions-and-assets) for more details.
 
-#### [tr-event-handler.js](functions/tr-event-handler.js)
-
-This code is triggered any time an event is fired from TaskRouter. The code ignores all TaskRouter events except for two, `reservation.created` and `reservation.wrapup`. `reservation.created` is used to activate the outbound call. The outbound call code that is triggered looks like this:
-
-```javascript
-const callPractice = await client.calls.create({
-  machineDetection: 'Enable',
-  MachineDetectionSpeechThreshold: '1000',
-  method: 'POST',
-  statusCallback: `https://${context.DOMAIN_NAME}/status-callback`,
-  statusCallbackMethod: 'POST',
-  url: `https://${context.DOMAIN_NAME}/dial-queue?queue=${event.ReservationSid}&from=${task.callerID}`,
-  to: task.practicePhone,
-  from: task.callerID,
-});
-```
-
-- In the above code sample note that we've enabled Answering Machine Detection. The results of AMD are sent to the `url`.
-- The `url` is triggered when the call connects. Note how we are sending the `queue` and `from` as parameters to that URL. The code at that URL is responsible for dialing the queue where the call is waiting as well as examining the results of AMD and making a decision as to how to proceed with the call.
-
 #### [dial-queue.js](functions/dial-queue.js)
 
 This code generates TwiML instructing the call the has been enqueued to dequeue. Due to the nature of this call going through TaskRouter, the queue will always be named the value of the Task Reservation SID.
@@ -82,8 +62,3 @@ This file is used to mock a request to a back end that returns data about the lo
    - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
    - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 6. Once you have the Twilio CLI installed and configured. From terminal run `twilio serverless:deploy`. This will push the Functions in this repository up to your Twilio account. There will be a new [Functions Service in your Twilio Console named call-router](https://console.twilio.com/us1/develop/functions/services?frameUrl=%2Fconsole%2Ffunctions%2Foverview%2Fservices%3Fx-target-region%3Dus1).
-
-## TaskRouter Explained
-
-For this example code we'll set up TaskRouter with one TaskQueue, one Worker, and one Workflow filter.
-If you've put your Twilio credentials in the `.env` file then you can run `node createDemoTr.js` from terminal. This will generate a new [TaskRouter Workspace](https://console.twilio.com/us1/develop/taskrouter/workspaces?frameUrl=/console/taskrouter/workspaces) called Call Router.
