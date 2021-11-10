@@ -25,7 +25,6 @@ Example Use: A call to a Twilio phone number puts the caller into a store's IVR.
   - [API](https://www.twilio.com/docs/voice/api)
   - [TwiML](https://www.twilio.com/docs/voice/twiml)
   - [AMD (Answering Machine Detection)](https://www.twilio.com/docs/voice/answering-machine-detection)
-- [TaskRouter](https://www.twilio.com/docs/taskrouter)
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
   - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
