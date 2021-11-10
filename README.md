@@ -6,6 +6,11 @@ Connect an incoming call to a Twilio Phone number to a Studio IVR. Enqueue the c
 
 Example Use: A call to a Twilio phone number puts the caller into a store's IVR. When the call finishes traversing the IVR the call is enqueued and the store phone is dialed. When the store answers the call they are connected to the enqueued call.
 
+**Additinal Notes**
+
+- This code checks for calls already in progress and will not dial to the destination number until it becomes available.
+- When a call ends the code checks the queue to see if there are calls waiting, if there are it will connect the call at the top of the queue.
+
 ## Requirements
 
 - A [Twilio](https://twilio.com) account
