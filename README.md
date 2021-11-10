@@ -3,7 +3,8 @@
 ## Use Case
 
 Connect an incoming call to a Twilio Phone number to a Studio IVR. Enqueue the call and place an outbound call that connects the queued call upon answer.
-Example Use: Using a Twilio phone number to call
+
+Example Use: A call to a Twilio phone number puts the caller into a store's IVR. When the call finishes traversing the IVR the call is enqueued and the store phone is dialed. When the store answers the call they are connected to the enqueued call.
 
 ## Requirements
 
