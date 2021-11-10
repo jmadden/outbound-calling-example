@@ -1,8 +1,8 @@
-# Outbound Calling Example Code
+# Using Only Studio and Functions Make Outbound Calls
 
 ## Use Case
 
-Connect an incoming call to a Twilio Phone number to another phone.
+Connect an incoming call to a Twilio Phone number to a Studio IVR. Enqueue the call and place an outbound call that connects the queued call upon answer.
 Example Use: Using a Twilio phone number to call
 
 ## Requirements
