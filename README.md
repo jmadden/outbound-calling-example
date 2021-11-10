@@ -29,34 +29,9 @@ Example Use: A call to a Twilio phone number puts the caller into a store's IVR.
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart)
   - [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
-## Call Flow Explained
-
-1. Phone call comes into a Twilio phone number.
-2. Call connects to a Studio IVR and traverses the IVR.
-3. Studio enqueues the call and creates a Task that is sent to TaskRouter.
-4. TaskRouter routes the Task to a Worker and a Task Reservation is created.
-5. The Reservation created event trigger's a webhook to a Twilio Function.
-6. The Twilio Function uses the Reservation and Task information to create an outbound call using the voice API. The outbound call is set up with Answering Machine Detection and a Status Callback URL.
-7. When the call connects, TwiML is activated that calls into the call queue using the Reservation SID as the name of the call queue. This dequeues the call and the enquued caller and the outbound called are connected.
-8. When the call completes the Task Reservation goes into Wrapping and that activates code that Completes the associated Task.
-
 ## Functions Explained
 
 > **Important!**: Keep in mind this is demo code. If you use Functions in production you should take the proper steps to secure them when needed. Please review [Understanding Visibility of Functions](https://www.twilio.com/docs/runtime/functions-assets-api/api/understanding-visibility-public-private-and-protected-functions-and-assets) for more details.
-
-#### [dial-queue.js](functions/dial-queue.js)
-
-This code generates TwiML instructing the call the has been enqueued to dequeue. Due to the nature of this call going through TaskRouter, the queue will always be named the value of the Task Reservation SID.
-
-In this example code we do not do anything with the AMD information other than `console.log()` it, so you can review it's value. Ultimately you could use the value returned by `AnsweredBy` to generate different TwiML vs the the TwiML currently being use to dequeue the call.
-
-#### [status-callback.js](functions/status-callback.js)
-
-This code simply console.logs call information that is returned when the call completes. Here is where you could add custome code to handle/record call failures. Find more information on this topic here: https://www.twilio.com/docs/usage/webhooks/voice-webhooks#call-status-callbacks
-
-#### [location-lookup.js](functions/location-lookup.js)
-
-This file is used to mock a request to a back end that returns data about the location you want to call. This Function should be used in the Run Function widget in Studio to retrieve data that is used when creating the text in the Enqueue Call widget.
 
 ## Instructions for running Twilio Functions
 
