@@ -8,7 +8,7 @@ Example Use: Using a Twilio phone number to call
 ## Requirements
 
 - A [Twilio](https://twilio.com) account
-- Node.js version 14 or higher and npm
+- Node.js version 14 (highest supported version on Twilio Funcitons)
 - [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) with the [Serverless Plugin](https://www.twilio.com/docs/twilio-cli/plugins#available-plugins)
 
 ## Twilio Technologies Used
